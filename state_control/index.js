@@ -1,8 +1,9 @@
-const fs = require('fs');
+const config = (require('read-appsettings-json').AppConfiguration).json;
 const log4js = require('log4js');
 let logger = log4js.getLogger();
-logger.level = "trace";
+logger.level = config.log.level;
 
+const fs = require('fs');
 let deviceUpdateControl = 0;
 let deviceList = {};
 let deviceListState = "";

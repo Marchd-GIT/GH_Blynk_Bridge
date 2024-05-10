@@ -1,6 +1,7 @@
+const config = (require('read-appsettings-json').AppConfiguration).json;
 const log4js = require('log4js');
 let logger = log4js.getLogger();
-logger.level = "trace";
+logger.level = config.log.level;
 
 const ds = require("../state_control");
 const gh = require("../gyver_hub");

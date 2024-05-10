@@ -1,7 +1,7 @@
 const config = (require('read-appsettings-json').AppConfiguration).json;
 const log4js = require('log4js');
 let logger = log4js.getLogger("MAIN");
-logger.level = "trace";
+logger.level = config.log.level;
 
 const net = require('net');
 const WebSocket = require('ws');
@@ -12,7 +12,7 @@ const http_handler = require('./handler_http');
 const ws_handler = require('./handler_ws');
 
 logger.info("Загружен конфиг");
-logger.info('\n',config);
+logger.info('\n',JSON.stringify(config,null,2));
 
 //TCP
 const tcp_server = net.createServer(tcp_handler.onClientTCP);
