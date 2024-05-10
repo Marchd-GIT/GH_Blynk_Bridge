@@ -1,31 +1,36 @@
 const fs = require('fs');
+const log4js = require('log4js');
+let logger = log4js.getLogger();
+logger.level = "trace";
 
 let deviceUpdateControl = 0;
 let deviceList = {};
 let deviceListState = "";
 
 function saveDeviceList() {
+    let logger = log4js.getLogger("saveDeviceList");
     const data = JSON.stringify(deviceList, null, 2);
     fs.writeFile('./devices_state.json', data, (err) => {
-        if (err) throw err;
+        if (err) logger.error(err);
         deviceListState = data;
-        console.log('The ./devices_state.json changed and saved ');
+        logger.info('./devices_state.json changed and saved ');
         deviceUpdateControl++;
     });
 }
 
 function updateDeviceList() {
+    let logger = log4js.getLogger("updateDeviceList");
     fs.readFile('./devices_state.json', 'utf8', (err, data) => {
         if (err) {
-            console.error(err);
+            logger.error(err);
             return;
         }
         try {
             deviceList = JSON.parse(data);
             deviceListState = data;
-            console.log("Updated ./devices_state.json");
+            logger.info("./devices_state.json updated");
         } catch (e) {
-            console.error(e.message);
+            logger.error(e.message);
         }
     });
 }
@@ -50,7 +55,8 @@ setInterval(() => {
 }, 100);
 
 fs.watchFile('./devices_state.json', { interval: 90 }, () => {
-    console.log("device_update_control ", deviceUpdateControl);
+    let logger = log4js.getLogger("watchFile");
+    logger.trace("device_update_control flag =", deviceUpdateControl);
     if (deviceUpdateControl > 0) {
         deviceUpdateControl--;
     } else {

@@ -1,13 +1,3 @@
-var replaceall = require("replaceall");
-
-module.exports.incrementHexNumber = incrementHexNumber;
-module.exports.decodeCommand = decodeCommand;
-module.exports.getMessId = getMessId;
-module.exports.getCommand = getCommand;
-module.exports.decodeBlynkMessHw = decodeBlynkMessHw;
-module.exports.genBlynkMessage = genBlynkMessage;
-
-
 /**
  * Функция для расшифровки статуса сообщения
  * Берет первый байт сообщения
@@ -187,3 +177,10 @@ function genBlynkMessage(type_pin, number_pin, function_pin, value_pin,id_messag
 function rgbToHex(r, g, b) {
     return (r << 16) | (g << 8) | b;
 }
+
+module.exports.incrementHexNumber = incrementHexNumber;
+module.exports.decodeCommand = decodeCommand;
+module.exports.getMessId = getMessId;
+module.exports.getCommand = getCommand;
+module.exports.decodeBlynkMessHw = decodeBlynkMessHw;
+module.exports.genBlynkMessage = genBlynkMessage;
