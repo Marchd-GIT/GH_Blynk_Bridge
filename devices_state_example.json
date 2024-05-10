@@ -1,0 +1,205 @@
+{
+  "devices": [
+    {
+      "device": {
+        "id": "100000",
+        "type": "discover",
+        "name": "Кухня",
+        "prefix": "kitchen",
+        "icon": "f2e7",
+        "PIN": 0,
+        "version": "1.0.1",
+        "platform": "GH_Blynk_Bridge",
+        "max_upload": 512,
+        "api_v": 1,
+        "http_transfer": 0,
+        "ota_type": "bin",
+        "ws_port": 8081,
+        "modules": 0
+      },
+      "ui": {
+        "id": "100000",
+        "type": "ui",
+        "controls": [
+          {
+            "id": "title1",
+            "type": "title",
+            "value": "Подсветка рабочей зоны",
+            "wheight": 5,
+            "font_size": 15,
+            "color": "8947848"
+          },
+          {
+            "type": "row",
+            "wwidth": 1,
+            "data": [
+              {
+                "token": "Blynk_token_1",
+                "pin_t": "virtual", // тип пина Blynk (virtual\degital\analog)
+                "pin": 1, // номер пина (GPIO\virtual)
+                "id": "button1",
+                "type": "switch_i",
+                "value": 0,
+                "wwidth": 0,
+                "wheight": 70,
+                "label": "0/1",
+                "suffix": "",
+                "square": 1
+              },
+              {
+                "token": "Blynk_token_1",
+                "pin_t": "virtual",
+                "pin": 2,
+                "id": "slider1",
+                "type": "slider",
+                "value": "1024",
+                "wwidth": 3,
+                "wheight": 70,
+                "label": "Яркость",
+                "min": 10,
+                "max": 1024,
+                "step": 1,
+                "dec": 0
+              }
+            ]
+          },
+          {
+            "id": "title11",
+            "type": "title",
+            "value": "Общий свет",
+            "wheight": 5,
+            "font_size": 15,
+            "color": "8947848"
+          },
+          {
+            "type": "row",
+            "wwidth": 1,
+            "data": [
+              {
+                "token": "Blynk_token_2",
+                "pin_t": "virtual",
+                "pin": 1,
+                "id": "button11",
+                "type": "switch_i",
+                "value": 0,
+                "wwidth": 1,
+                "wheight": 70,
+                "label": "0/1",
+                "suffix": "",
+                "square": 1
+              },
+              {
+                "token": "Blynk_token_2",
+                "pin_t": "virtual",
+                "pin": 2,
+                "id": "slider11",
+                "type": "slider",
+                "value": "1024",
+                "wwidth": 3,
+                "wheight": 70,
+                "label": "Яркость",
+                "min": 10,
+                "max": 1024,
+                "step": 1,
+                "dec": 0
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "device": {
+        "id": "100001",
+        "type": "discover",
+        "name": "Гостиная",
+        "prefix": "lounge",
+        "icon": "f4b8",
+        "PIN": 0,
+        "version": "1.0.1",
+        "platform": "GH_Blynk_Bridge",
+        "max_upload": 512,
+        "api_v": 1,
+        "http_transfer": 0,
+        "ota_type": "bin",
+        "ws_port": 8081,
+        "modules": 0
+      },
+      "ui": {
+        "id": "100001",
+        "type": "ui",
+        "controls": [
+          {
+            "value": "Горка",
+            "id": "title1",
+            "type": "title",
+            "wheight": 5,
+            "font_size": 15,
+            "color": "8947848"
+          },
+          {
+            "type": "row",
+            "wwidth": 1,
+            "data": [
+              {
+                "token": "Blynk_token_1",
+                "pin_t": "virtual",
+                "pin": 3,
+                "id": "button1",
+                "type": "switch_i",
+                "value": "0",
+                "wwidth": 0,
+                "wheight": 70,
+                "label": "0/1",
+                "suffix": "",
+                "square": 1
+              },
+              {
+                "token": "Blynk_token_1",
+                "pin_t": "virtual",
+                "pin": 4,
+                "id": "slider1",
+                "type": "slider",
+                "value": "1000",
+                "wwidth": 3,
+                "wheight": 70,
+                "label": "Яркость",
+                "min": 180,
+                "max": 1000,
+                "step": 1,
+                "dec": 0
+              }
+            ]
+          },
+          {
+            "id": "title11",
+            "type": "title",
+            "value": "Экран",
+            "wheight": 5,
+            "font_size": 15,
+            "color": "8947848"
+          },
+          {
+            "type": "row",
+            "wwidth": 1,
+            "data": [
+              {
+                "token": "Blynk_token_3",
+                "pin_t": "virtual",
+                "pin": 5,
+                "id": "button11",
+                "type": "switch_i",
+                "value": "0",
+                "wwidth": 1,
+                "wheight": 30,
+                "label": "0/1",
+                "suffix": "",
+                "square": 1
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}
