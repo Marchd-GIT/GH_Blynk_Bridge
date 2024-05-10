@@ -7,9 +7,12 @@ const net = require('net');
 const WebSocket = require('ws');
 const http = require("http");
 
-const tcp_handler = require('./tcp_handler');
-const http_handler = require('./http_handler');
-const ws_handler = require('./ws_handler');
+const tcp_handler = require('./handler_tcp');
+const http_handler = require('./handler_http');
+const ws_handler = require('./handler_ws');
+
+logger.info("Загружен конфиг");
+logger.info('\n',config);
 
 //TCP
 const tcp_server = net.createServer(tcp_handler.onClientTCP);

@@ -7,7 +7,7 @@ const common = require("../common");
 const ds = require("../state_control");
 const gh = require("../gyver_hub");
 const bo = require("../bin_operation");
-const tcp = require("../tcp_handler");
+const tcp = require("../handler_tcp");
 
 
 function onConnectWS(wsClient, wsServer) {
