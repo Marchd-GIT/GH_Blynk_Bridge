@@ -1,4 +1,4 @@
-const ws = require('../index')
+const main = require('../index')
 const config = (require('read-appsettings-json').AppConfiguration).json;
 const log4js = require('log4js');
 let logger = log4js.getLogger();
@@ -30,7 +30,7 @@ function onConnectWS(wsClient) {
                     setDeviceValue( widget,id )
                     wsClient.send('#{#1:"'+id+'",#3:#17}#');
                     wsClient.send('#{#1:"'+id+'",#3:#18,#a:"'+widget.split('=')[0]+'"}#');
-                    ws.ws_server.broadcast('#{#1:"'+id+'",#3:#4,#5:{"'+widget.split('=')[0]+'":{#30:"'+widget.split('=')[1]+'"}}}#');
+                    main.ws_server.broadcast('#{#1:"'+id+'",#3:#4,#5:{"'+widget.split('=')[0]+'":{#30:"'+widget.split('=')[1]+'"}}}#');
                     break;
                 case /.*\/.*\/.*\/ping/.test(message):
                     wsClient.send('#{#1:"'+id+'",#3:#17}#');
@@ -46,8 +46,16 @@ function onConnectWS(wsClient) {
                         }
                     })
                     break;
+                case /.*\/.*\/.*\/info/.test(message):
+                    wsClient.send('#{#1:"'+id+'",#3:#19,"info":{"version":{"Library":"1.0.1a"},"net":{},"memory":{},"system":{"Uptime":"'+process.uptime().toString().split(".")[0]+'","Platform":"GH_Blynk_Bridge"}}}#');
+                    break;
+                case /.*\/.*\/.*\/files/.test(message):
+                    wsClient.send('#{"fs":{"/":0},#1:"'+id+'",#3:#1c,#15:0,#14:0}#');
+                    //wsClient.send('#{"fs":{"/":0,"/data.dat":25},#1:"'+id+'",#3:#1c,#15:16384,#14:2072576}#');
+                    wsClient.send('#{#1:"'+id+'",#3:#17}#');
+                    break;
                 default:
-                   logger.info('Неизвестная команда');
+                   logger.warn('Неизвестная команда' , message.toString());
                     break;
             }
         } catch (error) {
@@ -99,7 +107,7 @@ function getDeviceValue(message,length,id) {
     common.writeToPath(ds.deviceList, controller.path, value+"");
     id_dev = ds.deviceList.devices[controller.path[1]].device.id
     logger.trace('#{#1:'+id_dev+',#3:#4,#5:{"'+controller.id+'":{#30:"'+value+'"}}}#')
-    ws.ws_server.broadcast('#{#1:'+id_dev+',#3:#4,#5:{"'+controller.id+'":{#30:"'+value+'"}}}#');
+    main.ws_server.broadcast('#{#1:'+id_dev+',#3:#4,#5:{"'+controller.id+'":{#30:"'+value+'"}}}#');
 
 }
 

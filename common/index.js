@@ -62,3 +62,4 @@ function writeToPath(obj, path, value) {
 
 module.exports.findObjectsWithIds = findObjectsWithIds;
 module.exports.writeToPath = writeToPath;
+module.exports.uptime = uptime;
