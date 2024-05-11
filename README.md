@@ -186,7 +186,7 @@ TODO
 `npm install`
 #### Запуск
 `node ./index.js`
-#### Вариант запуска через демон supervisor (да-да то самый стрый добрый)
+#### Вариант запуска через демон supervisor (да-да то самый старый добрый)
 ```shell
 apt install supervisor
 nano /etc/supervisor/conf.d/gh_bb.conf
