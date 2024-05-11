@@ -262,7 +262,7 @@ stopsignal=QUIT
             "wwidth": 1,
             "data": [
               {
-                "token": "11d1c855ab9e4857b23e5318cead0eea", // токен  устройсва а нотации Blynk
+                "token": "11d1c855ab9e4857b23e5318cead0eea", // токен  устройсва в нотации Blynk
                 "pin_t": "virtual", // тип пина Blynk
                 "pin": 1, // номер пина Blynk
                 "id": "button1", // id контроллера должен быть уникальный в рамках устройства GyverHub, но необезательно уникальный в рамках этого сервиса
