@@ -68,7 +68,70 @@
 - ws serevr для оперативного управления устройствами 
 
 ## Описание протокола Blynk
-TODO
+Нормальной документации к сожалению нет, по этому положу сюда то что мне удалось выяснить
+### Структура сообщений протокола обмена данными сервера с устройством 
+
+| Команда | Id  сообщения | длинна тела\статус | тело (по сути значения) |
+|:-------:|:-------------:|:------------------:|:------------------------:|
+| 1 byte  |    2 bytes    |      2 bytes       |         Variable         |
+
+1) Команда кодируется по индексу массива 
+```js
+    BlynkCmd = [
+        "BLYNK_CMD_RESPONSE",
+        "BLYNK_CMD_REGISTER",
+        "BLYNK_CMD_LOGIN",
+        "BLYNK_CMD_SAVE_PROF",
+        "BLYNK_CMD_LOAD_PROF",
+        "BLYNK_CMD_GET_TOKEN",
+        "BLYNK_CMD_PING",
+        "BLYNK_CMD_ACTIVATE",
+        "BLYNK_CMD_DEACTIVATE",
+        "BLYNK_CMD_REFRESH",
+        "BLYNK_CMD_GET_GRAPH_DATA",
+        "BLYNK_CMD_GET_GRAPH_DATA_RESPONSE",
+        "BLYNK_CMD_TWEET",
+        "BLYNK_CMD_EMAIL",
+        "BLYNK_CMD_NOTIFY",
+        "BLYNK_CMD_BRIDGE",
+        "BLYNK_CMD_HARDWARE_SYNC",
+        "BLYNK_CMD_INTERNAL",
+        "BLYNK_CMD_SMS",
+        "BLYNK_CMD_PROPERTY",
+        "BLYNK_CMD_HARDWARE",
+        "BLYNK_CMD_CREATE_DASH",
+        "BLYNK_CMD_SAVE_DASH",
+        "BLYNK_CMD_DELETE_DASH",
+        "BLYNK_CMD_LOAD_PROF_GZ",
+        "BLYNK_CMD_SYNC",
+        "BLYNK_CMD_SHARING",
+        "BLYNK_CMD_ADD_PUSH_TOKEN",
+        "NONE",
+        //sharing commands
+        "BLYNK_CMD_GET_SHARED_DASH",
+        "BLYNK_CMD_GET_SHARE_TOKEN",
+        "BLYNK_CMD_REFRESH_SHARE_TOKEN",
+        "BLYNK_CMD_SHARE_LOGIN",
+        "", "", "", "", "", "", "", "",
+        "BLYNK_CMD_REDIRECT",
+        "", "", "", "", "", "", "", "", "", "", "", "", "",
+        "BLYNK_CMD_DEBUG_PRINT",
+        "", "", "", "", "", "", "", "",
+        "BLYNK_CMD_EVENT_LOG"
+    ];
+```
+2) ID сообщения почти всегда инкрементальные (или иногда статичные), инкремент выдается на соединение (то есть в рамках одного подключения устройства). Работает по циклу от 1 до 255.
+3) Длина сообщения которое следует следующим пунктом, похоже нужна для выделения нужного размера массива при разборе    
+4) Тело сообщения имеет вид `vw 5 255` в hex `0x7677003500323535` где 
+- `v` (`76`) тип пина (v-virtual, d-digital, a-analog)
+- `w` (`77`)  операция (w-запись, r-чтение)
+- ` ` (`00`) далее идет сегмент с нулями для разделения 1 byte
+- `5` (`35`) номер пина GPIO или виртуальный (настраивается в прошивке)
+- ` ` (`00`)далее идет сегмент с нулями для разделения 1 byte
+- `255` (`323535`) остальное это значение пина
+### Порядок подключения устройства к серверу
+1) Устройство пытается подключиться к серверу на ip которое у него прописано в прошивке путем отправки такой команды 
+`BLYNK_CMD_GET_SHARED_DASH`
 ## Описание протокола обмена данными с приложением GyverHub
 TODO
 ## Запуск сервиса
