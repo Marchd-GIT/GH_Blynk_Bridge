@@ -186,6 +186,24 @@ TODO
 `npm install`
 #### Запуск
 `node ./index.js`
+#### Вариант запуска через демон supervisor (да-да то самый стрый добрый)
+```shell
+apt install supervisor
+nano /etc/supervisor/conf.d/gh_bb.conf
+```
+```
+[program:gh_bb]
+user=user
+environment=HOME="/var/www/GH_Blynk_Bridge"
+directory=/var/www/GH_Blynk_Bridge
+command=/var/usr/bin/nodejs index.js
+stdout_logfile=/var/log/GH_Blynk_Bridge.log
+autostart=true
+autorestart=true
+redirect_stderr=true
+stopwaitsecs = 5
+stopsignal=QUIT
+```
 ## Конфигурирование 
 ### Сервис
 Сам сервис конфигурируется файлом appsettings.json в корне проекта
