@@ -193,7 +193,7 @@ TODO
 ```json
 {
   "log":{
-    "level": "trace" // уровень логирования (error,info,trace)
+    "level": "trace" // уровень логирования (error,warn,info,trace)
   },
   "blynk": {
     "tcp_port" : "8080", // порт на который настроены устройства с blynk 
