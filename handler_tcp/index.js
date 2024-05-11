@@ -12,6 +12,7 @@ const bo = require("../bin_operation");
 const {decodeBlynkMessHw, genBlynkMessage} = require("../bin_operation");
 const common = require("../common");
 const ds = require("../state_control");
+const wsh = require('../handler_ws')
 
 
 function onClientTCP(sock) {
@@ -33,7 +34,6 @@ function onClientTCP(sock) {
             case 'BLYNK_CMD_GET_SHARED_DASH':
                 //Запускаем обмен данными
                 //TODO тут добавить проверку токена если будет необходимо
-                //BLYNK_CMD_RESPONSE
                 new_id = bo.incrementHexNumber(openSockets[sock_num].last_mess)
                 mess = '00' + new_id + '00c8'
                 openSockets[sock_num]["last_mess"] = new_id;
@@ -44,7 +44,6 @@ function onClientTCP(sock) {
                 sock.write(Buffer.from(mess, 'hex'));
                 break
             case 'BLYNK_CMD_INTERNAL':
-                //BLYNK_CMD_RESPONSE
                 new_id = bo.incrementHexNumber(openSockets[sock_num].last_mess)
                 mess = '00' + new_id + '00c8'
                 openSockets[sock_num]["last_mess"] = new_id;
@@ -60,21 +59,24 @@ function onClientTCP(sock) {
                     mess += genBlynkMessage(C.pin_t, C.pin+"", "write", C.value + "", new_id)
                 })
                 logger.info("NEW SYNC MESS: ",mess)
-                //mess = '11' + new_id + '000976770032003130323414000300067677003100301400030008767700340032353514000300087677003800323032140003000876770036003235351400030009767700313000323535'
-                //mess = genBlynkMessage("virtual", "1", "write", "1", new_id)
                 openSockets[sock_num]["last_mess"] = new_id;
                 logger.info("SEND MESS>", sock.remoteAddress, "BLYNK_CMD_HARDWARE_SYNC", mess)
                 logger.trace("--- ",JSON.stringify(decodeBlynkMessHw(mess.toString('hex'))));
                 sock.write(Buffer.from(mess, 'hex'));
                 break
             case 'BLYNK_CMD_PING':
-                //BLYNK_CMD_RESPONSE
                 new_id = bo.incrementHexNumber(openSockets[sock_num].last_mess)
                 mess = '00' + new_id + '00c8'
                 openSockets[sock_num]["last_mess"] = new_id;
                 logger.info("SEND MESS>", sock.remoteAddress, "BLYNK_CMD_PING", mess)
                 logger.trace("--- ",JSON.stringify(decodeBlynkMessHw(mess.toString('hex'))));
                 sock.write(Buffer.from(mess, 'hex'));
+                break
+            case 'BLYNK_CMD_HARDWARE':
+                new_id = bo.incrementHexNumber(openSockets[sock_num].last_mess)
+                let message_  = JSON.stringify(decode_data.message).replace(/\\u0000/g,"_")
+                logger.trace("--- ",JSON.stringify(decodeBlynkMessHw(data.toString('hex'))));
+                wsh.getDeviceValue(message_,decode_data.length.toString(10)*1,openSockets[sock_num].token)
                 break
             default:
                 break

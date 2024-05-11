@@ -1,3 +1,4 @@
+const ws = require('../index')
 const config = (require('read-appsettings-json').AppConfiguration).json;
 const log4js = require('log4js');
 let logger = log4js.getLogger();
@@ -10,8 +11,7 @@ const gh = require("../gyver_hub");
 const bo = require("../bin_operation");
 const tcp = require("../handler_tcp");
 
-
-function onConnectWS(wsClient, wsServer) {
+function onConnectWS(wsClient) {
     let logger = log4js.getLogger("onConnectWS");
     logger.info('new ws client',);
     //wsClient.send('#{#1:"100000",#3:#17}#');
@@ -30,7 +30,7 @@ function onConnectWS(wsClient, wsServer) {
                     setDeviceValue( widget,id )
                     wsClient.send('#{#1:"'+id+'",#3:#17}#');
                     wsClient.send('#{#1:"'+id+'",#3:#18,#a:"'+widget.split('=')[0]+'"}#');
-                    wsServer.broadcast('#{#1:"'+id+'",#3:#4,#5:{"'+widget.split('=')[0]+'":{#30:"'+widget.split('=')[1]+'"}}}#');
+                    ws.ws_server.broadcast('#{#1:"'+id+'",#3:#4,#5:{"'+widget.split('=')[0]+'":{#30:"'+widget.split('=')[1]+'"}}}#');
                     break;
                 case /.*\/.*\/.*\/ping/.test(message):
                     wsClient.send('#{#1:"'+id+'",#3:#17}#');
@@ -81,5 +81,27 @@ function setDeviceValue(set,id) {
         }
     })
 }
+function getDeviceValue(message,length,id) {
+    let logger = log4js.getLogger("getDeviceValue");
+    logger.trace(message,length,id);
+    let pin = message.split('_')[1]
+    let value = message.split('_')[2].replace(/"$/g,'')
+    let type = {"v":"virtual","d":"digital","a":"analog"}[message[1]]
+    logger.trace(type, pin, value, id);
+    let controllers = common.findObjectsWithIds(ds.deviceList,[],'token',id)
+    let controller = controllers.find((element)=>{
+        logger.trace("IF:", element.pin_t , type)
+        if (element.pin === pin*1 && element.pin_t === type ) return true
+    })
+    controller.path.push("value")
+    //logger.trace(controller);
+    logger.trace("WTP: ", controller.path, value+"");
+    common.writeToPath(ds.deviceList, controller.path, value+"");
+    id_dev = ds.deviceList.devices[controller.path[1]].device.id
+    logger.trace('#{#1:'+id_dev+',#3:#4,#5:{"'+controller.id+'":{#30:"'+value+'"}}}#')
+    ws.ws_server.broadcast('#{#1:'+id_dev+',#3:#4,#5:{"'+controller.id+'":{#30:"'+value+'"}}}#');
+
+}
 
 module.exports.onConnectWS = onConnectWS;
+module.exports.getDeviceValue = getDeviceValue;

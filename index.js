@@ -35,4 +35,6 @@ ws_server.broadcast = function (data) {
         client.send(data)
     })
 }
-ws_server.on('connection', (Client)=>{ws_handler.onConnectWS(Client,ws_server)});
+ws_server.on('connection', ws_handler.onConnectWS);
+
+module.exports.ws_server = ws_server;
