@@ -206,6 +206,65 @@ TODO
 }
 ```
 ### Настройка устройств
+Пример настройки devices_state.json (в нем хранятся настройки и состояние устройств):  
+```json
+{
+  "devices": [
+    {
+      "device": {
+        "id": "100000",
+        "type": "discover",
+        "name": "Кухня",
+        "prefix": "kitchen",
+        "icon": "f2e7",
+        "PIN": 0,
+        "version": "1.0.1",
+        "platform": "GH_Blynk_Bridge",
+        "max_upload": 512,
+        "api_v": 1,
+        "http_transfer": 0,
+        "ota_type": "bin",
+        "ws_port": 8081,
+        "modules": 0
+      },
+      "ui": {
+        "id": "100000",
+        "type": "ui",
+        "controls": [
+          {
+            "id": "title1",
+            "type": "title",
+            "value": "Подсветка рабочей зоны",
+            "wheight": 5,
+            "font_size": 15,
+            "color": "8947848"
+          },
+          {
+            "type": "row",
+            "wwidth": 1,
+            "data": [
+              {
+                "token": "11d1c855ab9e4857b23e5318cead0eea", // токен  устройсва а нотации Blynk
+                "pin_t": "virtual", // тип пина Blynk
+                "pin": 1, // номер пина Blynk
+                "id": "button1", // id контроллера должен быть уникальный в рамках устройства GyverHub, но необезательно уникальный в рамках этого сервиса
+                "type": "switch_i", 
+                "value": 0, // значение пина, будет меняться тут автоматически 
+                "wwidth": 0,
+                "wheight": 70,
+                "label": "0/1",
+                "suffix": "",
+                "square": 1
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}
+
+```
 #### Со стороны сервера
 TODO
 #### Со стороны приложения
