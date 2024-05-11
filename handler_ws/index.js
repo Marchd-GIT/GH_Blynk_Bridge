@@ -10,6 +10,7 @@ const ds = require("../state_control");
 const gh = require("../gyver_hub");
 const bo = require("../bin_operation");
 const tcp = require("../handler_tcp");
+const {decodeBlynkMessHw} = require("../bin_operation");
 
 function onConnectWS(wsClient) {
     let logger = log4js.getLogger("onConnectWS");
@@ -84,6 +85,7 @@ function setDeviceValue(set,id) {
             tcp.openSockets[i]["last_mess"] = new_id;
             e.sock.write(Buffer.from(mess, 'hex'));
             logger.info("SEND VALUE", bo.decodeCommand(mess),e.sock.remoteAddress,  mess);
+            logger.trace("--- ",JSON.stringify(decodeBlynkMessHw(mess.toString('hex'))));
             logger.trace("WTP: ", controller.path, value+"");
             common.writeToPath(ds.deviceList, controller.path, value+"");
         }

@@ -25,6 +25,7 @@ function onClientTCP(sock) {
 
     sock.on('data', function (data) {
         logger.info('RECEIVED <', sock.remoteAddress, bo.decodeCommand(data) ,data.toString('hex') );
+        logger.trace("--- ",JSON.stringify(decodeBlynkMessHw(data.toString('hex'))));
         let mess;
         let new_id;
         let decode_data = decodeBlynkMessHw(data.toString('hex'))
