@@ -17,10 +17,10 @@ const onConnectHTTP = async function (req, res) {
     logger.info("Request URL: ",req.url)
     switch (true) {
         case /\/hub\/.*\/.*\/.*\/ui/.test(req.url):
-            res.writeHead(200);
+            console.log("UI_HTTP")
             ds.deviceList.devices.forEach((D)=>{
                 if (D.device.id === id) {
-                    res.end(gh.encodeHubJson(D.device));
+                    res.end(gh.encodeHubJson(D.ui));
                 }
             })
             break;
