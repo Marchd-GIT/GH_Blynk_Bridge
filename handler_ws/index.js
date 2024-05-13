@@ -38,7 +38,7 @@ function onConnectWS(wsClient) {
                     break;
                 case /.*\/.*\/.*\/unix/.test(message):
                     wsClient.send('#{#1:"'+id+'",#3:#17}#');
-                    br
+                    break
                 case /.*\/.*\/.*\/unfocus/.test(message):
                     logger.info("client unfucus")
                     wsClient.terminate();
