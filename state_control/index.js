@@ -51,6 +51,7 @@ updateDeviceList();
 
 setInterval(() => {
     if (deviceListState !== JSON.stringify(deviceList, null, 2)) {
+        //console.log(deviceListState,JSON.stringify(deviceList, null, 2))
         saveDeviceList();
     }
 }, 100);

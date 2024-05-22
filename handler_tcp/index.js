@@ -55,7 +55,8 @@ function onClientTCP(sock) {
             case 'BLYNK_CMD_HARDWARE_SYNC':
                 new_id = bo.incrementHexNumber(openSockets[sock_num].last_mess)
                 mess = ''
-                common.findObjectsWithIds(ds.deviceList,[],'token', openSockets[sock_num]["token"]).forEach((C)=>{
+                let dl = JSON.parse(JSON.stringify(ds.deviceList));
+                common.findObjectsWithIds(dl,[],'token', openSockets[sock_num]["token"]).forEach((C)=>{
                     logger.info("GEN PARAMS: ",C.pin_t, C.pin+"", "write", C.value + "", new_id)
                     mess += genBlynkMessage(C.pin_t, C.pin+"", "write", C.value + "", new_id)
                 })

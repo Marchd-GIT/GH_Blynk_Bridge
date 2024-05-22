@@ -25,7 +25,8 @@ const onConnectHTTP = async function (req, res) {
             })
             break;
         case /\/hub\/.*/.test(req.url):
-            let ui = common.findObjectsWithIds(ds.deviceList,[],"prefix", prefix)[0]
+            let dl = JSON.parse(JSON.stringify(ds.deviceList));
+            let ui = common.findObjectsWithIds(dl,[],"prefix", prefix)[0]
             res.writeHead(200);
             res.end(gh.encodeHubJson(ui))
             break;
