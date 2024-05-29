@@ -97,24 +97,25 @@ function setDeviceValue(set,id) {
     })
 }
 function getDeviceValue(message,length,id) {
-    // let logger = log4js.getLogger("getDeviceValue");
-    // logger.trace(message,length,id);
-    // let pin = message.split('_')[1]
-    // let value = message.split('_')[2].replace(/"$/g,'')
-    // let type = {"v":"virtual","d":"digital","a":"analog"}[message[1]]
-    // logger.trace(type, pin, value, id);
-    // let controllers = common.findObjectsWithIds(ds.deviceList,[],'token',id)
-    // let controller = controllers.find((element)=>{
-    //     logger.trace("IF:", element.pin_t , type)
-    //     if (element.pin === pin*1 && element.pin_t === type ) return true
-    // })
-    // controller.path.push("value")
-    // //logger.trace(controller);
-    // logger.trace("WTP: ", controller.path, value+"");
-    // common.writeToPath(ds.deviceList, controller.path, value+"");
-    // id_dev = ds.deviceList.devices[controller.path[1]].device.id
-    // logger.trace('#{#1:'+id_dev+',#3:#4,#5:{"'+controller.id+'":{#30:"'+value+'"}}}#')
-    // main.ws_server.broadcast('#{#1:'+id_dev+',#3:#4,#5:{"'+controller.id+'":{#30:"'+value+'"}}}#');
+    let logger = log4js.getLogger("getDeviceValue");
+    logger.trace(message,length,id); 
+    let pin = message.split('_')[1]
+    let value = message.split('_')[2].replace(/"$/g,'')
+    let type = {"v":"virtual","d":"digital","a":"analog"}[message[1]]
+    logger.trace(type, pin, value, id);
+    let dl = JSON.parse(JSON.stringify(ds.deviceList));
+    let controllers = common.findObjectsWithIds(dl,[],'token',id)
+    let controller = controllers.find((element)=>{
+        logger.trace("IF:", element.pin_t , type)
+        if (element.pin === pin*1 && element.pin_t === type ) return true
+    })
+    controller.path.push("value")
+    //logger.trace(controller);
+    logger.trace("WTP: ", controller.path, value+"");
+    common.writeToPath(ds.deviceList, controller.path, value+"");
+    let id_dev = ds.deviceList.devices[controller.path[1]].device.id
+    logger.trace('#{#1:'+id_dev+',#3:#4,#5:{"'+controller.id+'":{#30:"'+value+'"}}}#')
+    main.ws_server.broadcast('#{#1:'+id_dev+',#3:#4,#5:{"'+controller.id+'":{#30:"'+value+'"}}}#');
 }
 
 module.exports.onConnectWS = onConnectWS;

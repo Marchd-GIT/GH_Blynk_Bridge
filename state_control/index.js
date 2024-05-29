@@ -11,12 +11,14 @@ let deviceListState = "";
 function saveDeviceList() {
     let logger = log4js.getLogger("saveDeviceList");
     const data = JSON.stringify(deviceList, null, 2);
-    fs.writeFile('./devices_state.json', data, (err) => {
-        if (err) logger.error(err);
-        deviceListState = data;
-        logger.info('./devices_state.json changed and saved ');
-        deviceUpdateControl++;
-    });
+    if( deviceList !== {} ){
+        fs.writeFile('./devices_state.json', data, (err) => {
+            if (err) logger.error(err);
+            deviceListState = data;
+            logger.info('./devices_state.json changed and saved ');
+            deviceUpdateControl++;
+        });
+    }
 }
 
 function updateDeviceList() {
