@@ -11,7 +11,7 @@ let deviceListState = "";
 function saveDeviceList() {
     let logger = log4js.getLogger("saveDeviceList");
     const data = JSON.stringify(deviceList, null, 2);
-    if( deviceList !== {} ){
+    if( Object.keys(deviceList).length > 0 ){
         fs.writeFile('./devices_state.json', data, (err) => {
             if (err) logger.error(err);
             deviceListState = data;

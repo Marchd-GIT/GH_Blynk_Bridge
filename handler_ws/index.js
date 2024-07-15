@@ -106,11 +106,11 @@ function getDeviceValue(message,length,id) {
     let dl = JSON.parse(JSON.stringify(ds.deviceList));
     let controllers = common.findObjectsWithIds(dl,[],'token',id)
     let controller = controllers.find((element)=>{
-        logger.trace("IF:", element.pin_t , type)
-        if (element.pin === pin*1 && element.pin_t === type ) return true
+        logger.trace("IF: ", element.pin +" === "+ pin*1 +" && "+ element.pin_t +" === "+ type )
+        if (element.pin === pin*1 && element.pin_t === type )
+        { return true }
     })
     controller.path.push("value")
-    //logger.trace(controller);
     logger.trace("WTP: ", controller.path, value+"");
     common.writeToPath(ds.deviceList, controller.path, value+"");
     let id_dev = ds.deviceList.devices[controller.path[1]].device.id
